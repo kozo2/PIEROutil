@@ -1,0 +1,11 @@
+Package: PIEROutil
+Type: Package
+Title: utility functions for PIERO ontology endpoint
+Version: 0.1.0
+Date: 2015-09-14
+Author: Kozo Nishida
+Maintainer: Kozo Nishida <knishida@riken.jp>
+Depends: SPARQL, hash
+Description: write later
+License: GPL (> 3)
+NeedsCompilation: no
