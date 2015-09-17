@@ -1,7 +1,7 @@
 #library(SPARQL)
 #library(hash)
 
-getPath <- function(sourcecpd, inference = FALSE, limit = 0, endpoint = "http://www.genome.jp/sparql/reactionontology/"){
+getPath <- function(sourcecpd, targetcpd, inference = FALSE, limit = 0, endpoint = "http://www.genome.jp/sparql/reactionontology/"){
   
   limitC = ""
   
@@ -32,9 +32,59 @@ getPath <- function(sourcecpd, inference = FALSE, limit = 0, endpoint = "http://
   })#end tryCatch
   
   #res<-SPARQL(url=endpoint,query)
-  return (res$results)
   
+  foo <- res$results
+  buf <- c()
+  
+  if (length(grep(targetcpd, foo)) == 0) {
+    for (i in 1:length(foo)) {
+      cpdid <- str_extract(foo[1,i], "C[0-9]{5}")
+      keggid <- paste("kegg:", cpdid, sep = "")
+      print(keggid)
+      getPath(keggid, targetcpd)
+    }
+  }
+  else {
+    print("reached")
+    #return(foo)
+  }
 }
+
+#nextPath <- function(sourcecpd, targetcpd, inference = FALSE, limit = 0, endpoint = "http://www.genome.jp/sparql/reactionontology/"){
+  
+  limitC = ""
+  
+  sparql_base <- paste( "PREFIX transformation: <http://reactionontology.org/piero/transformation/> \n",
+                        "SELECT DISTINCT ?o3 \n",
+                        "WHERE { \n",
+                        sourcecpd, " ?p1 ?rp1 . \n",
+                        "?rp1 rdf:type kegg:rpair . \n",
+                        "?rp1 ?p3 ?o3 . \n",
+                        "?o3 rdf:type kegg:compound . \n",
+                        "}  \n",
+                        limitC )
+  
+  if(inference) {
+    query <- paste( "DEFINE input:inference 'http://reactionontology.org/inference' \n", sparql_base)
+  }
+  else {
+    query <- sparql_base
+  }
+  
+  message("Performing query please wait...")
+  
+  res <- tryCatch({
+    SPARQL(url=endpoint,query)
+  },
+  error = function(err){
+    message("an error occured when trying to query for ensembl genes ", err)
+  })#end tryCatch
+  
+  #res<-SPARQL(url=endpoint,query)
+  
+  return(res$result)
+}
+  
 
 getInfo <- function(exfactor, inference = FALSE, limit = 0, endpoint="http://www.genome.jp/sparql/reactionontology/"){
 
