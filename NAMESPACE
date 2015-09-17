@@ -1,3 +1,4 @@
+export(getPath)
 export(getInfo)
 export(getTrans)
 export(getReactFromTrans)
