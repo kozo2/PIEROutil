@@ -7,5 +7,5 @@ Author: Kozo Nishida
 Maintainer: Kozo Nishida <knishida@riken.jp>
 Depends: SPARQL, hash
 Description: write later
-License: GPL (> 3)
+License: Apache License (== 2.0)
 NeedsCompilation: no
