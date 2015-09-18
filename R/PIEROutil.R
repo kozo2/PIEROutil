@@ -204,8 +204,7 @@ getReactFromTrans <- function(transformation_name, inference = FALSE, limit=0, e
   else
     warning ("limit should be an integer, limit omitted from the query")
   
-  sparql_base <- paste( "PREFIX transformation: <http://reactionontology.org/piero/transformation/> \n",
-                        "SELECT DISTINCT ?kegg_reaction \n",
+  sparql_base <- paste( "SELECT DISTINCT ?kegg_reaction \n",
                         "WHERE { \n",
                         "?transformation rdfs:label '", transformation_name, "' . \n",
                         "?kegg_reaction piero:hasTransformation ?transformation . \n",
