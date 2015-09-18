@@ -23,4 +23,6 @@ getInfo("kegg:RP00020")
 getTransFromReact("kegg:R00001")
 getReactFromTrans("cyclization")
 getReactSameTrans("kegg:R02110")
+getReactFromRpair("kegg:RP00020")
+
 ```
