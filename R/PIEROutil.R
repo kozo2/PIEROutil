@@ -305,3 +305,42 @@ getReactFromRpair <- function(rpair, inference = FALSE, limit=0, endpoint="http:
     #res<-SPARQL(url=endpoint,query)
     return (res$results)    
 }
+
+getEcFromRpair <- function(rpair, inference = FALSE, limit=0, endpoint="http://www.genome.jp/sparql/reactionontology/"){
+  
+  limitC = ""
+  if (limit != 0)
+    if (is.numeric(limit) && ! is.null (grep ("/.",limit)))
+      limitC = paste( " limit " , limit)
+    else
+      warning ("limit should be an integer, limit omitted from the query")
+    
+    sparql_base <- paste( "DEFINE input:inference 'http://reactionontology.org/inference' \n",
+                          "SELECT DISTINCT ?kegg_reaction, ?ec_number \n",
+                          "WHERE { \n",
+                          rpair, "piero:inReaction ?kegg_reaction . \n",
+                          "?kegg_reaction piero:catalyzedBy ?gene_product . \n",
+                          "?gene_product piero:mediates ?ec . \n",
+                          "?ec rdfs:label ?ec_number . \n",
+                          "} ORDER BY ?kegg_reaction ?ec_number \n",
+                          limitC )
+    
+    if(inference) {
+      query <- paste( "DEFINE input:inference 'http://reactionontology.org/inference' \n", sparql_base)
+    }
+    else {
+      query <- sparql_base
+    }
+    
+    message("Performing query please wait...")
+    
+    res <- tryCatch({
+      SPARQL(url=endpoint,query)
+    },
+    error = function(err){
+      message("an error occured when trying to query for ensembl genes ", err)
+    })#end tryCatch
+    
+    #res<-SPARQL(url=endpoint,query)
+    return (res$results)    
+}
