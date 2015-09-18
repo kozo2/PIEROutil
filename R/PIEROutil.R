@@ -37,6 +37,7 @@ getPath <- function(sourcecpd, targetcpd, inference = FALSE, limit = 0, endpoint
   buf <- c()
   
   if (length(grep(targetcpd, foo)) == 0) {
+    breaddfs <- data.frame()
     for (i in 1:length(foo)) {
       cpdid <- str_extract(foo[1,i], "C[0-9]{5}")
       keggid <- paste("kegg:", cpdid, sep = "")
@@ -134,8 +135,7 @@ getTrans <- function(reactionID, inference = FALSE, limit=0, endpoint="http://ww
   sparql_base <- paste( "PREFIX transformation: <http://reactionontology.org/piero/transformation/> \n",
                         "SELECT DISTINCT *\n",
                         "WHERE { \n",
-                        reactionID, " piero:hasTransformation ?transformation . \n",
-                        "?transformation rdfs:label ?transformation_name . \n",
+                        reactionID, " ?p ?o . \n",
                         "}  \n",
                  limitC )
 
