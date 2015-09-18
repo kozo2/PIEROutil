@@ -278,11 +278,12 @@ getReactFromRpair <- function(rpair, inference = FALSE, limit=0, endpoint="http:
       warning ("limit should be an integer, limit omitted from the query")
     
     sparql_base <- paste( "DEFINE input:inference 'http://reactionontology.org/inference' \n",
-                          "SELECT DISTINCT ?kegg_reaction \n",
+                          "SELECT DISTINCT ?kegg_rpair ?kegg_reaction \n",
                           "WHERE { \n",
-                          rpair, " piero:inReaction ?kegg_reaction . \n",
+                          "VALUES ?kegg_rpair {", rpair, "} . \n",
+                          "?kegg_rpair ?p ?kegg_reaction . \n",
                           "?kegg_reaction rdf:type kegg:reaction . \n",
-                          "} ORDER BY ?kegg_reaction \n",
+                          "} ORDER BY ?kegg_rpair ?kegg_reaction \n",
                           limitC )
     
     if(inference) {
