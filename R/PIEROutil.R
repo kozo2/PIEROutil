@@ -231,7 +231,7 @@ getReactFromTrans <- function(transformation_name, inference = FALSE, limit=0, e
   return (res$results)    
 }
 
-getReactSameTrans <- function(reactionID,inference = FALSE, limit=0, endpoint="http://www.genome.jp/sparql/reactionontology/"){
+getReactSameTrans <- function(reaction,inference = FALSE, limit=0, endpoint="http://www.genome.jp/sparql/reactionontology/"){
   
   limitC = ""
   if (limit != 0)
@@ -240,8 +240,7 @@ getReactSameTrans <- function(reactionID,inference = FALSE, limit=0, endpoint="h
   else
     warning ("limit should be an integer, limit omitted from the query")
   
-  sparql_base <- paste( "PREFIX transformation: <http://reactionontology.org/piero/transformation/> \n",
-                        "SELECT DISTINCT ?transformation_label ?kegg_reaction \n",
+  sparql_base <- paste( "SELECT DISTINCT ?transformation_label ?kegg_reaction \n",
                         "WHERE { \n",
                         reactionID, "piero:hasTransformation ?transformation . \n",
                         "?transformation piero:hasKeggReaction ?kegg_reaction . \n",
