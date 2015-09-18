@@ -26,4 +26,5 @@ getReactSameTrans("kegg:R02110")
 getReactFromRpair("kegg:RP00020")
 getReactFromRpair("kegg:RP00020 kegg:RP00021")
 getEcFromRpair("kegg:RP00020")
+getEcFromCpdpair("kegg:C00015", "kegg:C00043")
 ```
