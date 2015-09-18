@@ -10,3 +10,12 @@ install.packages("hash")
 library(devtools)
 install_github("kozo2/PIEROutil")
 ```
+
+Examples
+--------
+```R
+library(PIEROutil)
+getInfo("ec:3.2.1.18")
+getInfo("reaction:RN00004")
+getTrans("transformation:TR00216")
+```
